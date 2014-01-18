@@ -182,13 +182,6 @@ template '/etc/default/thumbor' do
   })
 end
 
-# template '/etc/init.d/thumbor' do
-#   source 'thumbor.init.erb'
-#   owner  'root'
-#   group  'root'
-#   mode   '0755'
-# end
-
 template '/etc/nginx/conf.d/thumbor.conf' do
   source 'nginx.conf.erb'
   owner  'root'
@@ -222,11 +215,6 @@ file '/etc/thumbor.key' do
   owner  'root'
   group  'root'
   mode   '0644'
-  notifies :restart, 'service[thumbor]'
-end
-
-python_pip 'git+git://github.com/zanui/thumbor_aws.git@webp' do
-  action :install
   notifies :restart, 'service[thumbor]'
 end
 

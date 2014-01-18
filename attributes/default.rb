@@ -31,13 +31,15 @@ default['thumbor']['storage']['type'] = 'file'
 default['thumbor']['options'] = {}
 
 # AWS CONFIG
-default['thumbor']['options']['AWS_ACCESS_KEY'] = 'XXXXXX'
-default['thumbor']['options']['AWS_SECRET_KEY'] = 'XXXXXX'
-default['thumbor']['options']['S3_ALLOWED_BUCKETS'] = 'zanui-thumbor'
-default['thumbor']['options']['STORAGE_BUCKET'] = 'zanui-thumbor'
-default['thumbor']['options']['S3_LOADER_BUCKET'] = 'zanui-thumbor'
-default['thumbor']['options']['RESULT_STORAGE_BUCKET'] = 'zanui-thumbor'
-default['thumbor']['options']['RESULT_STORAGE'] = 'thumbor_aws.result_storages.s3_storage'
+# default['thumbor']['options']['AWS_ACCESS_KEY'] = 'XXXXXX'
+# default['thumbor']['options']['AWS_SECRET_KEY'] = 'XXXXXX'
+# default['thumbor']['options']['S3_ALLOWED_BUCKETS'] = 'zanui-thumbor'
+# default['thumbor']['options']['STORAGE_BUCKET'] = 'zanui-thumbor'
+# default['thumbor']['options']['S3_LOADER_BUCKET'] = 'zanui-thumbor'
+# default['thumbor']['options']['RESULT_STORAGE_BUCKET'] = 'zanui-thumbor'
+# default['thumbor']['options']['RESULT_STORAGE'] = 'thumbor_aws.result_storages.s3_storage'
+
+default['thumbor']['options']['RESULT_STORAGE'] = 'thumbor.result_storages.file_storage'
 
 # SQS SETTINGS
 # default['thumbor']['options']['SQS_QUEUE_KEY_ID'] = ''
@@ -47,7 +49,7 @@ default['thumbor']['options']['RESULT_STORAGE'] = 'thumbor_aws.result_storages.s
 # the quality of the generated image
 # this option can vary widely between
 # imaging engines and works only on jpeg images
-default['thumbor']['options']['QUALITY'] = 85
+default['thumbor']['options']['QUALITY'] = 100
 
 # enable this options to specify client-side cache in seconds
 default['thumbor']['options']['MAX_AGE'] = 24 * 60 * 60
@@ -72,7 +74,7 @@ default['thumbor']['options']['UPLOAD_PHOTO_STORAGE'] = 'False'
 # STORAGE = 'thumbor.storages.no_storage'
 # STORAGE = 'thumbor.storages.file_storage'
 # STORAGE = 'thumbor.storages.mixed_storage'
-default['thumbor']['options']['STORAGE'] = 'thumbor_aws.storages.s3_storage'
+default['thumbor']['options']['STORAGE'] = 'thumbor.storages.file_storage'
 
 # root path of the file storage
 default['thumbor']['options']['FILE_STORAGE_ROOT_PATH'] = '/var/lib/thumbor/storage'
@@ -102,10 +104,10 @@ default['thumbor']['options']['ENGINE'] = 'thumbor.engines.pil'
 default['thumbor']['options']['DETECTORS'] = []
 
 # Redis parameters for queued detectors
-default['thumbor']['options']['REDIS_QUEUE_SERVER_HOST'] = 'localhost'
-default['thumbor']['options']['REDIS_QUEUE_SERVER_PORT'] = 6379
-default['thumbor']['options']['REDIS_QUEUE_SERVER_DB'] = 0
-default['thumbor']['options']['REDIS_QUEUE_SERVER_PASSWORD'] = 'None'
+# default['thumbor']['options']['REDIS_QUEUE_SERVER_HOST'] = 'localhost'
+# default['thumbor']['options']['REDIS_QUEUE_SERVER_PORT'] = 6379
+# default['thumbor']['options']['REDIS_QUEUE_SERVER_DB'] = 0
+# default['thumbor']['options']['REDIS_QUEUE_SERVER_PASSWORD'] = 'None'
 
 default['thumbor']['options']['AUTO_WEBP'] = 'True'
 
@@ -129,18 +131,18 @@ default['thumbor']['options']['AUTO_WEBP'] = 'True'
 # MIXED_STORAGE_DETECTOR_STORAGE = 'thumbor.storages.no_storage'
 
 default['thumbor']['options']['FILTERS'] = [
-    'thumbor.filters.brightness',
-    'thumbor.filters.contrast',
-    'thumbor.filters.rgb',
-    'thumbor.filters.round_corner',
-    'thumbor.filters.quality',
-    'thumbor.filters.noise',
-    'thumbor.filters.watermark',
-    'thumbor.filters.equalize',
-    'thumbor.filters.fill',
-    'thumbor.filters.sharpen',
-    'thumbor.filters.strip_icc',
-    'thumbor.filters.frame',
+    # 'thumbor.filters.brightness',
+    # 'thumbor.filters.contrast',
+    # 'thumbor.filters.rgb',
+    # 'thumbor.filters.round_corner',
+    # 'thumbor.filters.quality',
+    # 'thumbor.filters.noise',
+    # 'thumbor.filters.watermark',
+    # 'thumbor.filters.equalize',
+    # 'thumbor.filters.fill',
+    # 'thumbor.filters.sharpen',
+    # 'thumbor.filters.strip_icc',
+    # 'thumbor.filters.frame',
 
     # can only be applied if there are already points for the image being served
     # this means that either you are using the local face detector or the image
