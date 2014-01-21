@@ -12,6 +12,8 @@ recipe 'thumbor::source', 'Installs thumbor from GitHub repository'
 depends 'apt'
 depends 'python'
 depends 'nginx'
+depends 'git'
+depends 'build-essential'
 
 supports 'ubuntu'
 

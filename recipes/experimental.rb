@@ -18,140 +18,41 @@
 # limitations under the License.
 #
 
-apt_repository 'thumbor' do
-  uri           'http://ppa.launchpad.net/thumbor/ppa/ubuntu'
-  distribution  node['lsb']['codename']
-  components    ['main']
-  keyserver     'keyserver.ubuntu.com'
-  key           'C6C3D73D1225313B'
-  deb_src       true
-end
+include_recipe "git"
+include_recipe "python"
+include_recipe "build-essential"
 
-apt_repository 'multiverse' do
-  uri           'http://us.archive.ubuntu.com/ubuntu/'
-  distribution  node['lsb']['codename']
-  components    %w{main multiverse}
-  deb_src       true
-end
+app_user = node['thumbor']['user']
+app_group = node['thumbor']['group']
+paths = [ node['thumbor']['options']['FILE_STORAGE_ROOT_PATH'],
+          node['thumbor']['options']['RESULT_STORAGE_FILE_STORAGE_ROOT_PATH'], ]
 
-required_packages = %w{
-libopencv-dev
-libevent-dev
-libxml2-dev
-libcurl4-gnutls-dev
-python-pycurl-dbg
-librtmp-dev
-libatlas-base-dev
-gfortran
-liblapack-dev
-libblas-dev
-build-essential
-checkinstall
-git
-pkg-config
-cmake
-libpng12-0
-libpng12-dev
-libpng++-dev
-libpng3
-libpnglite-dev
-libfaac-dev
-libjack-jackd2-dev
-libjasper-dev
-libjasper-runtime
-libjasper1
-libmp3lame-dev
-libopencore-amrnb-dev
-libopencore-amrwb-dev
-libsdl1.2-dev
-libtheora-dev
-libva-dev
-libvdpau-dev
-libvorbis-dev
-libx11-dev
-libxfixes-dev
-libxvidcore-dev
-texi2html
-yasm
-zlib1g-dev
-zlib1g-dbg
-zlib1g
-libgstreamer0.10-0
-libgstreamer0.10-dev
-libgstreamer0.10-0-dbg
-gstreamer0.10-tools
-gstreamer0.10-plugins-base
-libgstreamer-plugins-base0.10-dev
-gstreamer0.10-plugins-good
-gstreamer0.10-plugins-ugly
-gstreamer0.10-plugins-bad
-gstreamer0.10-ffmpeg
-pngtools
-libtiff4-dev
-libtiff4
-libtiffxx0c2
-libtiff-tools
-libjpeg8
-libjpeg8-dev
-libjpeg8-dbg
-libjpeg-progs
-libavcodec-dev
-libavcodec53
-libavformat53
-libavformat-dev
-libxine1-ffmpeg
-libxine-dev
-libxine1-bin
-libunicap2
-libunicap2-dev
-libdc1394-22-dev
-libdc1394-22
-libdc1394-utils
-swig
-libpython2.7
-python-dev
-python2.7-dev
-libjpeg-progs
-libjpeg-dev
-libgtk2.0-0
-libgtk2.0-dev
-gtk2-engines-pixbuf
-python-numpy
-python-opencv
-redis-server
-libgraphicsmagick++1-dev
-libgraphicsmagick++3
-libboost-python-dev
-tree
-webp
-libwebp-dev
-python-dateutil
-}
+required_packages = %w(libjpeg-dev libpng-dev libtiff-dev libjasper-dev libgtk2.0-dev python-numpy python-pycurl  webp libwebp-dev python-opencv libcurl4-gnutls-dev)
 
 required_packages.each do |pkg|
   package pkg
 end
 
-service 'redis-server' do
-  supports :restart => true, :start => true, :stop => true, :reload => true
-  action   [:enable, :start]
+group app_group do
+  action :create
+end
+
+user app_user do
+  gid app_group
+  action :create
+end
+
+paths.each do |path|
+  directory path do
+    action :create
+    recursive true
+    owner app_user
+    group app_group
+    mode "0755"
+  end
 end
 
 python_pip 'git+git://github.com/globocom/thumbor.git' do
-  action :install
-  notifies :restart, 'service[thumbor]'
-end
-
-group 'thumbor' do
-  action :create
-end
-
-user 'thumbor' do
-  gid 'thumbor'
-  action :create
-end
-
-python_pip 'git+git://github.com/globocom/remotecv.git' do
   action :install
   notifies :restart, 'service[thumbor]'
 end
@@ -182,27 +83,10 @@ template '/etc/default/thumbor' do
   })
 end
 
-template '/etc/nginx/conf.d/thumbor.conf' do
-  source 'nginx.conf.erb'
-  owner  'root'
-  group  'root'
-  mode   '0644'
-  notifies :restart, 'service[thumbor]'
-  variables({
-    :instances            => node['thumbor']['processes'],
-    :base_port            => node['thumbor']['base_port'],
-    :server_port          => node['thumbor']['nginx']['port'],
-    :server_name          => node['thumbor']['nginx']['server_name'],
-    :proxy_cache_enabled  => node['thumbor']['nginx']['proxy_cache']['enabled'],
-    :proxy_cache_path     => node['thumbor']['nginx']['proxy_cache']['path'],
-    :proxy_cache_key_zone => node['thumbor']['nginx']['proxy_cache']['key_zone']
-  })
-end
-
 template '/etc/thumbor.conf' do
   source 'thumbor.conf.default.erb'
-  owner  'root'
-  group  'root'
+  owner  app_user
+  group  app_group
   mode   '0644'
   notifies :restart, 'service[thumbor]'
   variables({
@@ -212,8 +96,8 @@ end
 
 file '/etc/thumbor.key' do
   content node['thumbor']['key']
-  owner  'root'
-  group  'root'
+  owner  app_user
+  group  app_group
   mode   '0644'
   notifies :restart, 'service[thumbor]'
 end
