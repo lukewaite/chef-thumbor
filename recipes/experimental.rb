@@ -18,14 +18,16 @@
 # limitations under the License.
 #
 
-include_recipe "git"
-include_recipe "python"
-include_recipe "build-essential"
+include_recipe 'git'
+include_recipe 'python'
+include_recipe 'build-essential'
 
 app_user = node['thumbor']['user']
 app_group = node['thumbor']['group']
-paths = [ node['thumbor']['options']['FILE_STORAGE_ROOT_PATH'],
-          node['thumbor']['options']['RESULT_STORAGE_FILE_STORAGE_ROOT_PATH'], ]
+paths = [
+          node['thumbor']['options']['FILE_STORAGE_ROOT_PATH'],
+          node['thumbor']['options']['RESULT_STORAGE_FILE_STORAGE_ROOT_PATH']
+        ]
 
 required_packages = %w(libjpeg-dev libpng-dev libtiff-dev libjasper-dev libgtk2.0-dev python-numpy python-pycurl  webp libwebp-dev python-opencv libcurl4-gnutls-dev)
 
@@ -48,7 +50,7 @@ paths.each do |path|
     recursive true
     owner app_user
     group app_group
-    mode "0755"
+    mode '0755'
   end
 end
 

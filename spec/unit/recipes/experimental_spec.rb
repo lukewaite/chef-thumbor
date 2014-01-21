@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: thumbor
-# Recipe:: monit
+# Recipe:: experimental
 #
 # Copyright 2013, Enrico Stahn <mail@enricostahn.com>
 # Copyright 2013, Zanui <engineering@zanui.com.au>
@@ -22,13 +22,5 @@ require 'spec_helper'
 
 describe 'thumbor::experimental' do
   let(:chef_run) { ChefSpec::Runner.new(:platform => 'debian', :version  => '7.0').converge(described_recipe) }
-
-  it 'adds apt repository multiverse' do
-    expect(chef_run).to add_apt_repository('multiverse')
-  end
-
-  it 'adds apt repository thumbor' do
-    expect(chef_run).to add_apt_repository('thumbor')
-  end
 
 end
