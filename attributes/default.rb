@@ -76,7 +76,7 @@ default['thumbor']['options']['AUTO_WEBP'] = 'True'
 
 ## Max AGE sent as a header for the image served by thumbor in seconds
 ## Defaults to: 86400
-default['thumbor']['options']['MAX_AGE'] = '86400'
+default['thumbor']['options']['MAX_AGE'] = 86_400
 
 ## Indicates the Max AGE header in seconds for temporary images (images with
 ## failed smart detection)
@@ -204,7 +204,7 @@ default['thumbor']['options']['HTTP_LOADER_PROXY_PASSWORD'] = 'None'
 ## Expiration in seconds for the images in the File Storage. Defaults to one
 ## month
 ## Defaults to: 2592000
-default['thumbor']['options']['STORAGE_EXPIRATION_SECONDS'] = '2592000'
+default['thumbor']['options']['STORAGE_EXPIRATION_SECONDS'] = 2_592_000
 
 ## Indicates whether thumbor should store the signing key for each image in the
 ## file storage. This allows the key to be changed and old images to still be
@@ -259,7 +259,7 @@ default['thumbor']['options']['MONGO_STORAGE_SERVER_HOST'] = 'localhost'
 
 ## MongoDB storage server port
 ## Defaults to: 27017
-default['thumbor']['options']['MONGO_STORAGE_SERVER_PORT'] = '27017'
+default['thumbor']['options']['MONGO_STORAGE_SERVER_PORT'] = 27_017
 
 ## MongoDB storage server database name
 ## Defaults to: thumbor
