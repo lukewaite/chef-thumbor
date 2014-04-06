@@ -8,7 +8,7 @@ Installs thumbor from package OR source code and sets up configuration.
 Requirements
 ------------
 
-#### packages
+#### cookbooks
 - `apt`
 - `python`
 - `nginx`
