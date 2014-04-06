@@ -26,3 +26,6 @@ when 'debian'
 when 'mac_os_x'
 when 'windows'
 end
+
+include_recipe 'thumbor::experimental'
+include_recipe 'thumbor::nginx'

@@ -15,10 +15,8 @@
 # limitations under the License.
 #
 
-default['nginx']['port'] = 80
-
 default['thumbor']['processes'] = 1
-default['thumbor']['base_port'] = 8888
+default['thumbor']['base_port'] = 8800
 
 default['thumbor']['key'] = 'MY_SECURE_KEY'
 

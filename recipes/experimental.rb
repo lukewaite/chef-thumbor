@@ -139,3 +139,4 @@ supervisor_service 'thumbor' do
   stdout_capture_maxbytes '10MB'
   environment :PATH => "#{virtualenv}/bin"
 end
+
