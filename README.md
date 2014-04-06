@@ -9,7 +9,12 @@ Requirements
 ------------
 
 #### packages
-- `apt` - thumbor needs toaster to brown your bagel.
+- `apt`
+- `python`
+- `nginx`
+- `git`
+- `build-essential`
+- `supervisor`
 
 Attributes
 ----------
@@ -36,10 +41,6 @@ Attributes
     <td><tt>9000</tt></td>
   </tr>
 </table>
-
-#### thumbor::source
-
-#### thumbor::monit
 
 
 Usage
@@ -79,6 +80,7 @@ License and Authors
 -------------------
 - Author:: [Enrico Stahn](https://github.com/estahn) (<enrico.stahn@zanui.com.au>)
 - Author:: [Enrico Baioni](https://github.com/ebaioni) (<enrico.baioni@gmail.com>)
+- Author:: [Luke Waite](https://github.com/lukewaite) (<lwaite@gmail.com>)
 
 ```text
 Copyright:: 2013 Zanui, Internet Services Australia 3 Pty Limited
