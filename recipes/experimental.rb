@@ -132,7 +132,7 @@ supervisor_service 'thumbor' do
   command "python #{virtualenv}/bin/thumbor -c /etc/thumbor.conf -i 0.0.0.0 -k /etc/thumbor.key -p 888%(process_num)"
   startsecs 10
   startretries 3
-  exitcodes [ 0 ]
+  exitcodes [0]
   stopsignal 'TERM'
   stopwaitsecs 15
   redirect_stderr true
@@ -140,5 +140,5 @@ supervisor_service 'thumbor' do
   stdout_logfile_maxbytes '10MB'
   stdout_logfile_backups 10
   stdout_capture_maxbytes '10MB'
-  environment "PATH=#{virtualenv}/bin"
+  environment :PATH => "#{virtualenv}/bin"
 end
