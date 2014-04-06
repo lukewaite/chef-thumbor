@@ -56,7 +56,7 @@ paths.each do |path|
 end
 
 python_virtualenv virtualenv do
-  interpreter "python2.7"
+  interpreter 'python2.7'
   owner app_user
   group app_group
   action :create
