@@ -20,5 +20,4 @@
 python_pip 'git+git://github.com/canvaspop/thumbor-ral.git' do
   action :install
   virtualenv node['thumbor']['virtualenv']
-  notifies :restart, 'service[thumbor]'
 end
