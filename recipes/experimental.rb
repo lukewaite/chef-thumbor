@@ -69,6 +69,11 @@ python_pip 'git+git://github.com/globocom/thumbor.git' do
   virtualenv virtualenv
 end
 
+python_pip 'git+git://github.com/canvaspop/thumbor-ral.git' do
+  action :install
+  virtualenv node['thumbor']['virtualenv']
+end
+
 # template '/etc/init/thumbor.conf' do
 #   source 'thumbor.ubuntu.upstart.erb'
 #   owner  'root'
