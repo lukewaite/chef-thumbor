@@ -21,13 +21,15 @@
 include_recipe 'git'
 include_recipe 'python'
 include_recipe 'build-essential'
+include_recipe 'supervisor'
 
 app_user = node['thumbor']['user']
 app_group = node['thumbor']['group']
 virtualenv = node['thumbor']['virtualenv']
 paths = [
           node['thumbor']['options']['FILE_STORAGE_ROOT_PATH'],
-          node['thumbor']['options']['RESULT_STORAGE_FILE_STORAGE_ROOT_PATH']
+          node['thumbor']['options']['RESULT_STORAGE_FILE_STORAGE_ROOT_PATH'],
+          '/var/log/thumbor'
         ]
 
 required_packages = %w(libjpeg-dev libpng-dev libtiff-dev libjasper-dev libgtk2.0-dev python-numpy python-pycurl  webp libwebp-dev python-opencv libcurl4-gnutls-dev)
@@ -68,31 +70,31 @@ python_pip 'git+git://github.com/globocom/thumbor.git' do
   notifies :restart, 'service[thumbor]'
 end
 
-template '/etc/init/thumbor.conf' do
-  source 'thumbor.ubuntu.upstart.erb'
-  owner  'root'
-  group  'root'
-  mode   '0755'
-end
+# template '/etc/init/thumbor.conf' do
+#   source 'thumbor.ubuntu.upstart.erb'
+#   owner  'root'
+#   group  'root'
+#   mode   '0755'
+# end
+#
+# template '/etc/init/thumbor-worker.conf' do
+#   source 'thumbor.worker.erb'
+#   owner  'root'
+#   group  'root'
+#   mode   '0755'
+# end
 
-template '/etc/init/thumbor-worker.conf' do
-  source 'thumbor.worker.erb'
-  owner  'root'
-  group  'root'
-  mode   '0755'
-end
-
-template '/etc/default/thumbor' do
-  source 'thumbor.default.erb'
-  owner  'root'
-  group  'root'
-  mode   '0644'
-  notifies :restart, 'service[thumbor]'
-  variables({
-    :instances => node['thumbor']['processes'],
-    :base_port => node['thumbor']['base_port']
-  })
-end
+# template '/etc/default/thumbor' do
+#   source 'thumbor.default.erb'
+#   owner  'root'
+#   group  'root'
+#   mode   '0644'
+#   notifies :restart, 'service[thumbor]'
+#   variables({
+#     :instances => node['thumbor']['processes'],
+#     :base_port => node['thumbor']['base_port']
+#   })
+# end
 
 template '/etc/thumbor.conf' do
   source 'thumbor.conf.default.erb'
@@ -113,8 +115,30 @@ file '/etc/thumbor.key' do
   notifies :restart, 'service[thumbor]'
 end
 
-service 'thumbor' do
-  provider Chef::Provider::Service::Upstart
-  supports :restart => true, :start => true, :stop => true, :reload => true
-  action   [:enable, :start]
+# service 'thumbor' do
+#   provider Chef::Provider::Service::Upstart
+#   supports :restart => true, :start => true, :stop => true, :reload => true
+#   action   [:enable, :start]
+# end
+
+supervisor_service 'thumbor' do
+  action :enable
+  autostart true
+  autorestart true
+  user app_user
+
+  process_name '%(program_name)s_%(process_num)s'
+  numprocs '4'
+  command "python #{virtualenv}/bin/thumbor -c /etc/thumbor.conf -i 0.0.0.0 -k /etc/thumbor.key -p 888%(process_num)"
+  startsecs '10'
+  startretries '3'
+  exitcodes '0'
+  stopsignal 'TERM'
+  stopwaitsecs '15'
+  redirect_stderr 'true'
+  stdout_logfile '/var/log/thumbor/thumbor.log'
+  stdout_logfile_maxbytes '10MB'
+  stdout_logfile_backups '10'
+  stdout_capture_maxbytes '10MB'
+  environment "PATH=#{virtualenv}/bin"
 end

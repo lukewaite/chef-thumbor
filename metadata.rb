@@ -14,6 +14,7 @@ depends 'python'
 depends 'nginx'
 depends 'git'
 depends 'build-essential'
+depends 'supervisor'
 
 supports 'ubuntu'
 
