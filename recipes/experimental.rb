@@ -128,17 +128,17 @@ supervisor_service 'thumbor' do
   user app_user
 
   process_name '%(program_name)s_%(process_num)s'
-  numprocs '4'
+  numprocs 4
   command "python #{virtualenv}/bin/thumbor -c /etc/thumbor.conf -i 0.0.0.0 -k /etc/thumbor.key -p 888%(process_num)"
-  startsecs '10'
-  startretries '3'
-  exitcodes '0'
+  startsecs 10
+  startretries 3
+  exitcodes [ 0 ]
   stopsignal 'TERM'
-  stopwaitsecs '15'
-  redirect_stderr 'true'
+  stopwaitsecs 15
+  redirect_stderr true
   stdout_logfile '/var/log/thumbor/thumbor.log'
   stdout_logfile_maxbytes '10MB'
-  stdout_logfile_backups '10'
+  stdout_logfile_backups 10
   stdout_capture_maxbytes '10MB'
   environment "PATH=#{virtualenv}/bin"
 end
