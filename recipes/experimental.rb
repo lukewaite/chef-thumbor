@@ -67,7 +67,6 @@ end
 python_pip 'git+git://github.com/globocom/thumbor.git' do
   action :install
   virtualenv virtualenv
-  notifies :restart, 'service[thumbor]'
 end
 
 # template '/etc/init/thumbor.conf' do
@@ -101,7 +100,6 @@ template '/etc/thumbor.conf' do
   owner  app_user
   group  app_group
   mode   '0644'
-  notifies :restart, 'service[thumbor]'
   variables({
     :options    => node['thumbor']['options']
   })
@@ -112,7 +110,6 @@ file '/etc/thumbor.key' do
   owner  app_user
   group  app_group
   mode   '0644'
-  notifies :restart, 'service[thumbor]'
 end
 
 # service 'thumbor' do
