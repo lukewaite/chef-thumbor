@@ -126,7 +126,7 @@ supervisor_service 'thumbor' do
 
   process_name '%(program_name)s_%(process_num)s'
   numprocs 4
-  command "python #{virtualenv}/bin/thumbor -c /etc/thumbor.conf -i 0.0.0.0 -k /etc/thumbor.key -p 888%(process_num)"
+  command "python #{virtualenv}/bin/thumbor -c /etc/thumbor.conf -i 0.0.0.0 -k /etc/thumbor.key -p 88%(process_num)02d"
   startsecs 10
   startretries 3
   exitcodes [0]
