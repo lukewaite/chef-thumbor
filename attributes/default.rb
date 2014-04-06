@@ -25,6 +25,8 @@ default['thumbor']['key'] = 'MY_SECURE_KEY'
 default['thumbor']['user'] = 'thumbor'
 default['thumbor']['group'] = 'thumbor'
 
+default['thumbor']['virtualenv'] = "/usr/local/thumbor"
+
 ################################### Logging ####################################
 
 ## Log Format to be used by thumbor when writing log messages.

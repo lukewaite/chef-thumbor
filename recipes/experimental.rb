@@ -24,6 +24,7 @@ include_recipe 'build-essential'
 
 app_user = node['thumbor']['user']
 app_group = node['thumbor']['group']
+virtualenv = node['thumbor']['virtualenv']
 paths = [
           node['thumbor']['options']['FILE_STORAGE_ROOT_PATH'],
           node['thumbor']['options']['RESULT_STORAGE_FILE_STORAGE_ROOT_PATH']
@@ -54,8 +55,16 @@ paths.each do |path|
   end
 end
 
+python_virtualenv virtualenv do
+  interpreter "python2.7"
+  owner app_user
+  group app_group
+  action :create
+end
+
 python_pip 'git+git://github.com/globocom/thumbor.git' do
   action :install
+  virtualenv virtualenv
   notifies :restart, 'service[thumbor]'
 end
 
