@@ -74,7 +74,7 @@ default['thumbor']['options']['WEBP_QUALITY'] = 'None'
 ## Specifies whether WebP format should be used automatically if the request
 ## accepts it (via Accept header)
 ## Defaults to: False
-default['thumbor']['options']['AUTO_WEBP'] = 'True'
+default['thumbor']['options']['AUTO_WEBP'] = 'False'
 
 ## Max AGE sent as a header for the image served by thumbor in seconds
 ## Defaults to: 86400
