@@ -36,4 +36,3 @@ template '/etc/nginx/conf.d/thumbor.conf' do
                 :proxy_cache_key_zone => node['thumbor']['nginx']['proxy_cache']['key_zone']
             })
 end
-
